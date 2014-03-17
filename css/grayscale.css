@@ -1,0 +1,242 @@
+/*!
+ * Start Bootstrap - Grayscale Bootstrap Theme (http://startbootstrap.com)
+ * Code licensed under the Apache License v2.0.
+ * For details, see http://www.apache.org/licenses/LICENSE-2.0.
+ */
+
+body {
+  width: 100%;
+  height: 100%;
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif
+  color: #fff;
+  background-color: #000;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0 0 35px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+p {
+  margin: 0 0 25px;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+@media(min-width:768px) {
+  p {
+    margin: 0 0 35px;
+    font-size: 20px;
+    line-height: 1.6;
+  }
+}
+
+a {
+  color: #42dca3;
+  -webkit-transition: all .2s ease-in-out;
+  -moz-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
+}
+
+a:hover,
+a:focus {
+  text-decoration: none;
+  color: #1d9b6c;
+}
+
+.light {
+  font-weight: 400;
+}
+
+.intro {
+  display: table;
+  width: 100%;
+  height: auto;
+  text-align: center;
+  color: #ccc;
+  background-color: #333;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+}
+
+.intro .intro-body {
+  display: table-cell;
+  vertical-align: middle;
+  color: #ccc;
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif
+}
+
+.intro .intro-body .brand-heading {
+  font-size: 40px;
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif
+}
+
+.intro .intro-body .intro-text {
+  font-size: 18px;
+}
+
+@media(min-width:768px) {
+  .intro {
+    height: 100%;
+    padding: 0;
+  }
+
+  .intro .intro-body .brand-heading {
+    font-size: 40px;
+  }
+
+  .intro .intro-body .intro-text {
+    font-size: 26px;
+  }
+}
+
+.shell-body {
+  margin: 0 auto;
+  padding: 5px;
+  border: dotted 1px #444;
+  list-style: none;
+  font: 20px 'Andale Mono', Consolas, 'Courier New';
+  text-align: left;
+  line-height: 1.6em;
+
+  -webkit-border-bottom-right-radius: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+  -moz-border-radius-bottomright: 3px;
+  -moz-border-radius-bottomleft: 3px;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+.shell-body .prompt:before {
+  content: '$';
+  position: relative;/*absolute;*/
+  left: -10px;
+  top: 0;
+}
+
+.shell-body li {
+  word-wrap: break-word;
+  position: relative;
+  padding: 0 0 0 15px;
+}
+
+.shell-body .folder a {
+  color: #2A8B67;
+}
+.shell-body .folder a:hover,
+.shell-body .folder a:focus {
+  color: #086945;
+}
+
+.shell-body .file a {
+  color: #ccc;
+}
+.shell-body .file a:hover,
+.shell-body .file a:focus {
+  color: #888;
+}
+
+.shell-body .exe a {
+  /*default*/
+}
+.shell-body .exe a:hover,
+.shell-body .exe a:focus {
+  /*default*/
+}
+
+.btn {
+  border-radius: 20px;
+  text-transform: lowercase;
+  font-family: "Courier New", Courier, monospace
+  font-weight: 400;
+  -webkit-transition: all .3s ease-in-out;
+  -moz-transition: all .3s ease-in-out;
+  transition: all .3s ease-in-out;
+}
+
+.btn-default {
+  margin: 10px;
+  border: 1px solid #42dca3;
+  color: #42dca3;
+  background-color: transparent;
+}
+
+.btn-default:hover,
+.btn-default:focus {
+  border: 1px solid #42dca3;
+  outline: 0;
+  color: #000;
+  background-color: #42dca3;
+}
+
+.blink_me {
+  -webkit-animation-name: blinker;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+
+  -moz-animation-name: blinker;
+  -moz-animation-duration: 1.5s;
+  -moz-animation-timing-function: linear;
+  -moz-animation-iteration-count: infinite;
+
+  animation-name: blinker;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@-moz-keyframes blinker {
+  0% { opacity: 1.0; }
+  50% { opacity: 0.0; }
+  100% { opacity: 1.0; }
+}
+
+@-webkit-keyframes blinker {
+  0% { opacity: 1.0; }
+  50% { opacity: 0.0; }
+  100% { opacity: 1.0; }
+}
+
+@keyframes blinker {
+  0% { opacity: 1.0; }
+  50% { opacity: 0.0; }
+  100% { opacity: 1.0; }
+}
+
+::-moz-selection {
+  text-shadow: none;
+  background: #fcfcfc;
+  background: rgba(255,255,255,.2);
+}
+
+::selection {
+  text-shadow: none;
+  background: #fcfcfc;
+  background: rgba(255,255,255,.2);
+}
+
+img::selection {
+  background: 0 0;
+}
+
+img::-moz-selection {
+  background: 0 0;
+}
+
+body {
+  webkit-tap-highlight-color: rgba(255,255,255,.2);
+}

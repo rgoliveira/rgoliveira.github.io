@@ -1,0 +1,198 @@
+<html>
+<head>
+  <title>Speech Adventure</title>
+  <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/1.1.0/annyang.min.js"></script> -->
+  <style type="text/css">
+    #errorOverlay {
+      position:fixed;
+      width:100%;
+      height:100%;
+      background-color:#FFF;
+      z-index:1000;
+      opacity:1.0;
+      display:none;
+      left:0;
+      top:0;
+    }
+    .container {
+      width:60%;
+      margin-left:auto;
+      margin-right:auto;
+      margin-top:50px;
+    }
+    .text {
+      display:inherit;
+    }
+    .options {
+      margin-top:5px;
+    }
+    .option {
+      display:inherit;
+      padding: 2px 2px 2px 2px;
+      font-weight:bold;
+    }
+    body {
+      color: #333333;
+      font-family: ‘Lucida Sans Unicode’, ‘Lucida Grande’, sans-serif;
+    }
+  </style>
+  <script src="libs/annyang/annyang.js"></script>
+  <script src="libs/jquery-2.1.1.min.js"></script>
+  <!-- look at notyfy. it has css themes support -->
+  <script src="libs/noty/js/noty/packaged/jquery.noty.packaged.min.js"></script>
+  <script src="libs/noty/js/noty/themes/default.js"></script>
+  <script src="tree.js"></script>
+  <script>
+  var supportTTS = function () {
+    return ('speechSynthesis' in window);
+  }
+
+  var notifyError = function (msg) {
+    $('#errorOverlay').fadeIn();
+    noty({
+            layout: 'topCenter',
+            killer: true,
+            closeWith: [],
+            type: 'error',
+            text: msg,
+            callback: {
+              afterClose: function () { 
+                $('#errorOverlay').fadeOut();
+                resumeVoice();
+              },
+              onShow: function() {
+                pauseVoice();
+              }
+            }
+    });
+  };
+  var notifyWarning = function (msg) {
+    $('#messages').noty({
+            layout: 'bottomCenter',
+            killer: true,
+            type: 'warning',
+            timeout: 3000,
+            text: msg
+            });
+  };
+
+  var notifyNoMic =   function () { notifyError('Microphone input not allowed yet. Please allow it to continue...'); };
+  var notifyNoSup =   function () { notifyError('Seems like your browser doesn&#39;t support voice recognition ): <br /> Please come back using Chrome...'); };
+  var notifyNoMatch = function () { notifyWarning('Sorry, couldn&#39;t understand your statement. Please try again.'); };
+  
+  var SpeechSynthesisUtterance =  window.SpeechSynthesisUtterance ||
+                                  window.webkitSpeechSynthesisUtterance ||
+                                  window.mozSpeechSynthesisUtterance ||
+                                  window.msSpeechSynthesisUtterance ||
+                                  window.oSpeechSynthesisUtterance;
+
+  var pauseVoice = function () {
+    if (supportTTS()) speechSynthesis.pause();
+  }
+  var resumeVoice = function () {
+    if (supportTTS()) speechSynthesis.resume();
+  }
+  var cancelVoice = function () { // will discard queue!
+    if (supportTTS()) speechSynthesis.cancel();
+  }
+  var speakIt = function (text) {
+    var utterance = new SpeechSynthesisUtterance(text);
+    speechSynthesis.speak(utterance);
+  }
+  var speakContent = function () {
+    speakIt($('.text').html());
+    speakIt('Your choices are:');
+    $('.option').each( function () {
+      speakIt($(this).html());
+    });
+    speakIt('Please state your choice out loud.');
+  }
+
+  if (annyang) {
+    // set up annyang
+    //annyang.debug(true);
+    
+    annyang.addCallback('resultNoMatch',  function () { notifyNoMatch();    });
+    annyang.addCallback('resultMatch',    function () { $.noty.closeAll();  });
+    annyang.addCallback('start',          function () { $.noty.closeAll();  });
+    annyang.addCallback('end',            function () { notifyNoMic();      });
+  }
+
+  $(window).unload(function () {
+    alert('unload');
+    cancelVoice();
+  });
+
+  $(document).ready(function () {
+    if (annyang) { // client supports Voice Recognition
+      notifyNoMic();
+      annyang.start();
+      
+      function genCmd(next, hook) {
+        return function (event) {
+          if (next) loadSpeech(next);
+          if (hook) triggerHook(hook);
+        };
+      }
+      
+      var loadSpeech = function(id) {
+        if (!id) id = 1;
+        annyang.removeCommands(); // clear stored commands
+        $("#container").hide();
+        
+        for (var i=0; i < j.dialogues.length; i++) { // search for requested dialogue 'id'
+          if (j.dialogues[i].id == id) { // found it
+            // clear current texts/options
+            $(".text").empty();
+            $(".options").empty();
+            
+            var d = j.dialogues[i];
+            $(".text").append(d.text); // set text
+            if (d.options) {
+              for (var k=0; k < d.options.length; k++) {
+                // create option element
+                var opt = $("<div></div>", {
+                                id: 'opt' + (k+1),
+                                class: 'option',
+                                display: 'block'})
+                        .html((k+1) + '. ' + d.options[k].text)
+                        .appendTo(".options");
+
+                // prepare command
+                var cmd = {};
+                var next = d.options[k].next;
+                var hook = d.options[k].hook;
+                cmd[d.options[k].command] = genCmd(next, hook);
+                // add it to annyang
+                annyang.addCommands(cmd);
+              }
+            }
+          }
+        }
+        $(".container").fadeIn(1500); // good to go
+        speakContent();
+      }
+      // retrieving JSON with our story
+      var j = {};
+      $.getJSON("tree.json", function (data) {
+        // when loaded&parsed, start!
+        // CAUTION: if I'm not mistaken, jQuery will silently fail when
+        //          the JSON being used is invalid.
+        j = data;
+        loadSpeech(); // will look for dialogue with id 1
+      });
+    } else {
+      notifyNoSup();
+    }
+  });
+  </script>
+</head>
+<body>
+  <div id="errorOverlay"></div>
+  <div class="container">
+    <div class="text"></div>
+    <div class="options"></div>
+    <div id="messages"></div>
+  </div>
+</body>
+</html>

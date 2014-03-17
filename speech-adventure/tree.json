@@ -1,0 +1,40 @@
+{
+  "dialogues":
+              [
+                { "id": "001",
+                  "text": "It is summertime again, vacation time. You go to your uncle's house. He takes you on a tour around the city. There are many old buildings, but the oldest of all is on Main Street. The address is 880. He says that it is haunted, but you don't believe him.",
+                  "options":
+                            [
+                              {"text": "Do you [go inside]?", "command": "go inside", "next": "002"},
+                              {"text": "Do you [stay there]?", "command": "stay there", "next": "003"}
+                            ]},
+                
+                { "id": "002",
+                  "text": "You say, &#39;I will go inside.&#39; He says, &#39;I want to watch you.&#39; You start up the stone steps of the old haunted house. You open the door and step inside and suddenly a sharp arrow streaks across in front of you! But it misses you.",
+                  "options":
+                            [
+                              {"text": "Do you go up the [staircase]?", "command": "staircase", "next": "004"},
+                              {"text": "Do you go through the [swinging doors]?", "command": "swinging doors", "next": "005"}
+                            ]},
+                
+                { "id": "003",
+                  "text": "You stay there. Then you decide to go home, have an ice cream, and go to bed."},
+                  
+                { "id": "004",
+                  "text": "You go up the stairs. You lean against the railing and it breaks. You fall and that&#39;s the end of you."},
+                
+                { "id": "005",
+                  "text": "You go through the swinging doors. You walk through the room.",
+                  "options":
+                            [
+                              {"text": "Do you go into the [closet]?", "command": "closet", "next": "006"},
+                              {"text": "Do you go into the [passageway] under the house?", "command": "passageway", "next": "007"}
+                            ]},
+                
+                { "id": "006",
+                  "text": "You go into the closet. You fall through a trapdoor and break your leg. The walls are too smooth to climb. There is no other way up."},
+                  
+                { "id": "007",
+                  "text": "You go into a pasaageway under the house. You make your way along and it leads to a trapdoor that takes you back to where you started from. You meet a policeman at the top and he says to you, &#39;You were lucky to get out of there. Don&#39;t ever go in there again!&#39; You go home and have some ice cream."}
+              ]
+}
