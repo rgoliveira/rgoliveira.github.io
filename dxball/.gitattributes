@@ -1,0 +1,2 @@
+# Build output: keep bytes exactly as built (the loading screen's progress offsets depend on the file size)
+* -text
